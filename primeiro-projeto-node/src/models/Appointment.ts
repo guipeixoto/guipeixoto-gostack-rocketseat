@@ -4,7 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import User from './User';
 
 @Entity('appointments')
 class Appointment {
@@ -22,6 +25,11 @@ class Appointment {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  // Relationships
+  @ManyToOne(() => User) // indica a cardinalidade do relacionamento
+  @JoinColumn({ name: 'provider_id' }) // informa qual coluna identfica o relacionamento
+  provider: User;
 }
 
 export default Appointment;
