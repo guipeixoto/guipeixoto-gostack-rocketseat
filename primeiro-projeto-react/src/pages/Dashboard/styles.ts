@@ -94,3 +94,9 @@ export const Repositories = styled.div`
     }
   }
 `;
+
+export const Error = styled.p`
+  margin-top: 10px;
+  color: #dc3545;
+  font-size: 16px;
+`;
