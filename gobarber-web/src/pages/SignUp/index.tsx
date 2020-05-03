@@ -9,9 +9,9 @@ import Button from '../../components/Button';
 import logoImg from '../../assets/logo.svg';
 
 const SignUp: React.FC = () => {
-  function handleSubmit(data: object): void {
+  const handleSubmit = (data: object): void => {
     console.log(data);
-  }
+  };
 
   return (
     <Container>
