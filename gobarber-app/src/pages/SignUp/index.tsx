@@ -17,6 +17,7 @@ import logoImg from '../../assets/logo.png';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
 
 import {
   Container,
@@ -39,41 +40,53 @@ const SignUp: React.FC = () => {
 
   const navigation = useNavigation();
 
-  const handleSignUp = useCallback(async (data: SignUpDTO) => {
-    try {
-      formRef.current?.setErrors({});
+  const handleSignUp = useCallback(
+    async (data: SignUpDTO) => {
+      try {
+        formRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        name: Yup.string().required('Nome obrigatório'),
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Digite um e-mail válido'),
-        password: Yup.string().min(
-          6,
-          'Senha deve conter no mínimo 6 caracteres',
-        ),
-      });
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Nome obrigatório'),
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().min(
+            6,
+            'Senha deve conter no mínimo 6 caracteres',
+          ),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      // await api.post('/users', data);
-    } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(error);
+        Alert.alert(
+          'Cadastro realizado com sucesso.',
+          'Você já pode fazer logon na aplicação.',
+        );
 
-        formRef.current?.setErrors(errors);
+        await api.post('/users', data);
 
-        return;
+        navigation.navigate('SignIn');
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(error);
+
+          formRef.current?.setErrors(errors);
+
+          return;
+        }
+
+        console.log(error);
+
+        Alert.alert(
+          'Error ao se cadastrar.',
+          'Houve uma falha ao tentar se cadastrar.',
+        );
       }
-
-      Alert.alert(
-        'Error ao se cadastrar.',
-        'Houve uma falha ao tentar se cadastrar.',
-      );
-    }
-  }, []);
+    },
+    [navigation],
+  );
 
   return (
     <>
