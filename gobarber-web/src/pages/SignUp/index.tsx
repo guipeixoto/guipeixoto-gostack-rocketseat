@@ -54,9 +54,6 @@ const SignUp: React.FC = () => {
           title: 'Cadastro efetuado.',
           description: 'Parabéns, você acaba de se tornar membro da GoBarber!',
         });
-
-        try {
-        } catch {}
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error);
