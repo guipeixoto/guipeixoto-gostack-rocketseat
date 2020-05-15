@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
+import { container } from 'tsyringe';
 
 import uploadConfig from '@config/upload';
 
@@ -16,8 +17,7 @@ const upload = multer(uploadConfig);
 usersRouter.post('/', async (request, response) => {
   const { name, email, password } = request.body;
 
-  const usersRepository = new UsersRepository();
-  const createUserService = new CreateUserService(usersRepository);
+  const createUserService = container.resolve(CreateUserService);
 
   const user = await createUserService.run({ name, email, password });
 
