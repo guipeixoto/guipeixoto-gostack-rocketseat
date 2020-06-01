@@ -36,15 +36,20 @@ describe('CreateUser', () => {
       password: '123456',
     });
 
-    try {
-      await createUserService.run({
+    expect(
+      createUserService.run({
         name: 'User Test',
         email: 'usertest@mail.com',
         password: '123456',
-      });
-    } catch (error) {
-      expect(error).toBeInstanceOf(AppError);
-      expect(error).toEqual(new AppError('Email address already used.'));
-    }
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+
+    expect(
+      createUserService.run({
+        name: 'User Test',
+        email: 'usertest@mail.com',
+        password: '123456',
+      }),
+    ).rejects.toEqual(new AppError('Email address already used.'));
   });
 });

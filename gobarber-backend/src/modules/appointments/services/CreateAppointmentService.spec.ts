@@ -31,14 +31,18 @@ describe('CreateAppointment', () => {
       provider_id: 'a1s2a45d1a',
     });
 
-    try {
-      await createAppointment.run({
+    await expect(
+      createAppointment.run({
         date,
         provider_id: 'a1s2a45d1a',
-      });
-    } catch (error) {
-      expect(error).toBeInstanceOf(AppError);
-      expect(error).toEqual(new AppError('This appointment is already booked'));
-    }
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+
+    await expect(
+      createAppointment.run({
+        date,
+        provider_id: 'a1s2a45d1a',
+      }),
+    ).rejects.toEqual(new AppError('This appointment is already booked'));
   });
 });

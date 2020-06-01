@@ -36,17 +36,21 @@ describe('UpdateUserAvatar', () => {
       fakeStorageProvider,
     );
 
-    try {
-      await updateUserAvatarService.run({
+    expect(
+      updateUserAvatarService.run({
         user_id: 'non-existing-user',
         avatarFileName: 'avatar.jpg',
-      });
-    } catch (error) {
-      expect(error).toBeInstanceOf(AppError);
-      expect(error).toEqual(
-        new AppError('Only authenticated users can change avatar.', 401),
-      );
-    }
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+
+    expect(
+      updateUserAvatarService.run({
+        user_id: 'non-existing-user',
+        avatarFileName: 'avatar.jpg',
+      }),
+    ).rejects.toEqual(
+      new AppError('Only authenticated users can change avatar.', 401),
+    );
   });
 
   it('should delete old avatar when updating new one', async () => {
