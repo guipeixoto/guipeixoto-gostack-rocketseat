@@ -35,17 +35,21 @@ describe('AuthenticateUser', () => {
       fakeHashProvider,
     );
 
-    try {
-      await authenticateUserService.run({
+    await expect(
+      authenticateUserService.run({
         email: 'otheruser@mail.com',
         password: '123456',
-      });
-    } catch (error) {
-      expect(error).toBeInstanceOf(AppError);
-      expect(error).toEqual(
-        new AppError('Incorrect email/password combination.', 401),
-      );
-    }
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+
+    await expect(
+      authenticateUserService.run({
+        email: 'otheruser@mail.com',
+        password: '123456',
+      }),
+    ).rejects.toEqual(
+      new AppError('Incorrect email/password combination.', 401),
+    );
   });
 
   it('should not be able to authenticate with password incorrect', async () => {
@@ -62,16 +66,20 @@ describe('AuthenticateUser', () => {
       password: await fakeHashProvider.generateHash('123456'),
     });
 
-    try {
-      await authenticateUserService.run({
+    expect(
+      authenticateUserService.run({
         email: 'usertest@mail.com',
         password: 'passworincorrect',
-      });
-    } catch (error) {
-      expect(error).toBeInstanceOf(AppError);
-      expect(error).toEqual(
-        new AppError('Incorrect email/password combination.', 401),
-      );
-    }
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+
+    expect(
+      authenticateUserService.run({
+        email: 'usertest@mail.com',
+        password: 'passworincorrect',
+      }),
+    ).rejects.toEqual(
+      new AppError('Incorrect email/password combination', 401),
+    );
   });
 });
