@@ -79,7 +79,7 @@ describe('AuthenticateUser', () => {
         password: 'passworincorrect',
       }),
     ).rejects.toEqual(
-      new AppError('Incorrect email/password combination', 401),
+      new AppError('Incorrect email/password combination.', 401),
     );
   });
 });
