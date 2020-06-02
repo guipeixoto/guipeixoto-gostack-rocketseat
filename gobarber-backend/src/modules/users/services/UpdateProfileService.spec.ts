@@ -96,7 +96,7 @@ describe('UpdateProfile', () => {
       user_id: user.id,
       name: 'User Test Updated',
       email: 'usertestupdated@mail.com',
-      oldPassword: '123456',
+      old_password: '123456',
       password: '654321',
     });
 
@@ -145,7 +145,7 @@ describe('UpdateProfile', () => {
         user_id: user.id,
         name: 'User Test Updated',
         email: 'usertestupdated@mail.com',
-        oldPassword: 'wrong-old-password',
+        old_password: 'wrong-old-password',
         password: '654321',
       }),
     ).rejects.toBeInstanceOf(AppError);
@@ -155,7 +155,7 @@ describe('UpdateProfile', () => {
         user_id: user.id,
         name: 'User Test Updated',
         email: 'usertestupdated@mail.com',
-        oldPassword: 'wrong-old-password',
+        old_password: 'wrong-old-password',
         password: '654321',
       }),
     ).rejects.toEqual(

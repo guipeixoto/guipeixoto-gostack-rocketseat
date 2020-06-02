@@ -20,7 +20,7 @@ export default class UpdateProfileService {
     user_id,
     name,
     email,
-    oldPassword,
+    old_password,
     password,
   }: IUpdateUserDTO): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
@@ -35,15 +35,15 @@ export default class UpdateProfileService {
       throw new AppError('E-mail already in use.');
     }
 
-    if (password && !oldPassword) {
+    if (password && !old_password) {
       throw new AppError(
         'You need to inform the old password to set a new password.',
       );
     }
 
-    if (password && oldPassword) {
+    if (password && old_password) {
       const checkOldPassword = await this.hashProvider.compareHash(
-        oldPassword,
+        old_password,
         user.password,
       );
 
