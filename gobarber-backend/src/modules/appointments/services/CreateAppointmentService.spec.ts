@@ -17,6 +17,7 @@ describe('CreateAppointment', () => {
   it('should be able to create a new appointment', async () => {
     const appointment = await createAppointment.run({
       date: new Date(),
+      user_id: 'user-id',
       provider_id: 'a1s2a45d1a',
     });
 
@@ -29,12 +30,14 @@ describe('CreateAppointment', () => {
 
     await createAppointment.run({
       date,
+      user_id: 'user-id',
       provider_id: 'a1s2a45d1a',
     });
 
     await expect(
       createAppointment.run({
         date,
+        user_id: 'user-id',
         provider_id: 'a1s2a45d1a',
       }),
     ).rejects.toBeInstanceOf(AppError);
@@ -42,6 +45,7 @@ describe('CreateAppointment', () => {
     await expect(
       createAppointment.run({
         date,
+        user_id: 'user-id',
         provider_id: 'a1s2a45d1a',
       }),
     ).rejects.toEqual(new AppError('This appointment is already booked'));
