@@ -29,7 +29,7 @@ export default (
   try {
     const decode = verify(token, secret);
 
-    const { sub } = decode as TokenPayload;
+    const { sub } = decode as ITokenPayload;
 
     request.user = {
       id: sub,

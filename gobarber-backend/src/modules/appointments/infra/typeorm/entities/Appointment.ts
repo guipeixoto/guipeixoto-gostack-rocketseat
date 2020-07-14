@@ -17,6 +17,9 @@ class Appointment {
   @Column()
   provider_id: string;
 
+  @Column()
+  user_id: string;
+
   @Column('time with time zone')
   date: Date;
 
@@ -30,6 +33,10 @@ class Appointment {
   @ManyToOne(() => User) // indica a cardinalidade do relacionamento
   @JoinColumn({ name: 'provider_id' }) // informa qual coluna identfica o relacionamento
   provider: User;
+
+  @ManyToOne(() => User) // indica a cardinalidade do relacionamento
+  @JoinColumn({ name: 'user_id' }) // informa qual coluna identfica o relacionamento
+  user: User;
 }
 
 export default Appointment;
