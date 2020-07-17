@@ -1,22 +1,18 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 
 import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import { classToClass } from 'class-transformer';
 
 export default class UserAvatarController {
   public async update(request: Request, response: Response): Promise<Response> {
-    const usersRepository = new UsersRepository();
-    const updateUserAvatarService = new UpdateUserAvatarService(
-      usersRepository,
-    );
+    const updateUserAvatarService = container.resolve(UpdateUserAvatarService);
 
     const user = await updateUserAvatarService.run({
       user_id: request.user.id,
       avatarFileName: request.file.filename,
     });
 
-    delete user.password;
-
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 }
