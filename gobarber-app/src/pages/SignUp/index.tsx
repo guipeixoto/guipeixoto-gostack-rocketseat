@@ -77,8 +77,6 @@ const SignUp: React.FC = () => {
           return;
         }
 
-        console.log(error);
-
         Alert.alert(
           'Error ao se cadastrar.',
           'Houve uma falha ao tentar se cadastrar.',
