@@ -3,4 +3,5 @@ export default interface IFindAllInDayFromProviderDTO {
   day: number;
   month: number;
   year: number;
+  relations?: string[];
 }

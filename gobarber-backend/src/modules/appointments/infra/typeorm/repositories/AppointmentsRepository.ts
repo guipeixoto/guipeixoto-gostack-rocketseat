@@ -66,6 +66,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
     day,
     month,
     year,
+    relations,
   }: IFindAllInDayFromProviderDTO): Promise<Appointment[]> {
     const parsedDay = String(day).padStart(2, '0');
     const parsedMonth = String(month).padStart(2, '0');
@@ -78,6 +79,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
             `to_char(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
         ),
       },
+      relations,
     });
 
     return appointments;
