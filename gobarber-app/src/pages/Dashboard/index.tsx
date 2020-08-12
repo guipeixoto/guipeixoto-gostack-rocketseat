@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Feather';
 
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
@@ -13,6 +14,13 @@ import {
   ProfileButton,
   UserAvatar,
   ProvidersList,
+  ProviderContainer,
+  ProviderAvatar,
+  ProviderInfo,
+  ProviderName,
+  ProviderMeta,
+  ProviderMetaText,
+  ProvidersListTitle,
 } from './styles';
 
 export interface Provider {
@@ -23,6 +31,8 @@ export interface Provider {
 
 const Dashboard: React.FC = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
+
+  console.log(providers);
 
   const { signOut, user } = useAuth();
   const { navigate } = useNavigation();
@@ -45,9 +55,36 @@ const Dashboard: React.FC = () => {
       </Header>
 
       <ProvidersList
+        ListHeaderComponent={
+          <ProvidersListTitle>Cabeleireiros</ProvidersListTitle>
+        }
         data={providers}
         keyExtractor={provider => provider.id}
-        renderItem={({ item }) => <UserName>{item.name}</UserName>}
+        renderItem={({ item: provider }) => (
+          <ProviderContainer
+            onPress={() =>
+              navigate('CreateAppointment', { providerId: provider.id })
+            }
+          >
+            <ProviderAvatar source={{ uri: provider.avatar_url }} />
+
+            <ProviderInfo>
+              <ProviderName>{provider.name}</ProviderName>
+
+              <ProviderMeta>
+                <Icon name='calendar' size={14} color='#ff9000' />
+
+                <ProviderMetaText>Segunda à Sexta</ProviderMetaText>
+              </ProviderMeta>
+
+              <ProviderMeta>
+                <Icon name='clock' size={14} color='#ff9000' />
+
+                <ProviderMetaText>8h às 18h</ProviderMetaText>
+              </ProviderMeta>
+            </ProviderInfo>
+          </ProviderContainer>
+        )}
       />
 
       <View
