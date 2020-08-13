@@ -99,7 +99,6 @@ const CreateAppointment: React.FC = () => {
 
       navigate('AppointmentCreated', { date: date.getTime() });
     } catch (error) {
-      console.log(error);
       Alert.alert(
         'Erro ao criar agendamento',
         'Ocorreu um erro ao criar o agendamento!',
